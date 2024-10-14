@@ -31,11 +31,10 @@
         let number=0
         let tent=0 
         let tentMax = 5
-        let random =0
         
 
     let button = document.querySelector("#button")
-     casualNumber = random(min,max)
+     casualNumber = generateRandomInteger(min,max)
      button.addEventListener("click",function(event){
             if (tent >= tentMax) {
                 console.log("Tentativi esauriti, il numero corretto era "+casualNumber)
