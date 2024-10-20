@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="static/css/import.css">
 </head>
 <body>
-    <div class="container" >
+    <div class="container">
+
         <h1 class="titolo">INDOVINA IL NUMERO</h1>
+
         <div class="subtitle">
             <ol>
                 <li>Il computer sceglierà segretamente un numero intero casuale tra 1 e <br> 100.</li>
@@ -31,82 +33,64 @@
         <div class="button">
             <p id="text1">Inserisci il numero magico</p>
             <form action="">
-                <input type="number" name="num" id="UserGuess" value="0">
+                <input type="number" name="num" id="USERguess" value="0">
                 <br>
-                <input type="button" name="btn" id="UserButton" value="INDOVINA">
+                <input type="button" name="btn" id="USERbutton" value="INDOVINA">
             </form>
         </div>
         <div class="written-button">
-            <p id="inner1">...</p>
-            <p id="inner2">Hai ancora <span id="tnt"> 5 </span> tentativi </p>
+            <p id="wc1">...</p>
+            <p id="wc2">Hai ancora <span id="tentativi"> 5 </span> tentativi </p>
         </div>
-</div>
-    <script>
-           function sanitize(number) {
-            let num = number;
-            return num.trim();
-        }
+    </div>
 
+    <script>
+        function sanitize(number) {
+            let num = number;
+            return num.trim()
+        }
 
         function generateRandomInteger(min, max) {
-            let casualNumber = Math.random()
-            casualNumber = casualNumber * max
-            casualNumber = parseInt(casualNumber)
-            return casualNumber
+            let casualNumber = Math.random() * (max - min + 1) + min
+            return Math.floor(casualNumber)
         }
 
-        function sanitize(number){
-            return parseInt(number) //parseInt per diventare i numeri interi 
-        }
-
-        let contatore=0
-        let casualNumber = generateRandomInteger(1,100)
-        let domanda=0
-        let min=1
-        let max=100
-        let number
-        let tent=0 
+        let contatore = 0
         let tentMax = 5
-        let indovinato=false
+        let number
+        let min = 1
+        let max = 100
+        let casualNumber = generateRandomInteger(min, max)
+        let indovinato = false
 
-        let button = document.querySelector("#UserButton");
-        let inner1 = document.querySelector("#inner1");
-        let inner2 = document.querySelector("#inner2");
-        
-        
-        button.addEventListener("click",function(event){
+        let button = document.querySelector("#USERbutton")
+        let fratello1 = document.querySelector("#wc1")
+        let fratello2 = document.querySelector("#wc2")
+
+        button.addEventListener("click", function(event) {
             if (contatore >= tentMax) {
-                inner1.innerHTML = "Tentativi esauriti, il numero corretto era " + casualNumber;
+                fratello1.innerHTML = "Tentativi esauriti, il numero corretto era " + casualNumber
+                fratello2.innerHTML = ""
                 return;
             }
 
-            number = parseInt(document.querySelector("#UserGuess").value);
-            contatore+= 1;
-
-            number = document.querySelector("#userGuess").value
-            number = parseInt(number)
+            number = parseInt(document.querySelector("#USERguess").value)
             contatore += 1
 
-            if (number < min || number > max || isNaN(number)){
-                inner2.innerHTML = "Errore nell'inserimento!"
+            if (number < min || number > max || isNaN(number)) {
+                fratello1.innerHTML = "Errore nell'inserimento!"
+            } else if (number === casualNumber) {
+                fratello1.innerHTML = "Hai indovinato! in " + contatore + " tentativi"
+                fratello2.innerHTML = ""
+                indovinato = true;
+            } else if (number < casualNumber) {
+                fratello1.innerHTML = "Numero troppo piccolo, riprova"
+            } else {
+                fratello1.innerHTML = "Numero troppo grande, riprova"
             }
 
-        if(number === casualNumber){
-        inner1.innerHTML = "Hai indovinato! in " + contatore + " tentativi";
-        inner2.innerHTML = "";
-        indovinato = true;
-        }else{
-            if (number > casualNumber){
-                inner1.innerHTML = "Numero troppo piccolo, riprova"
-            }else{
-                inner1.innerHTML = "Numero troppo piccolo, riprova"
-            }
-        }
-
-        inner2.innerHTML = "Hai ancora " + (tentMax - contatore) + " tentativi"
-    
-    }
-)
+            fratello2.innerHTML = "Hai ancora " + (tentMax - contatore) + " tentativi"
+        })
     </script>
 </body>
 </html>
