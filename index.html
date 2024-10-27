@@ -6,6 +6,24 @@
     <title>Document</title>
     <link rel="stylesheet" href="static/css/import.css">
 </head>
+<body id="dinamic" class="green">
+    <script>
+        //metodo cozzalo per modificare lo stile di un elemento
+        //prendo l'elemento con querySelector
+        // agisco direttamente sullo stile
+        //let elemento = document.querySelector("#prova").style
+        
+        /*  Metodo 2 elegante
+            meglio accedere ad un altro attributo
+            manipolare le classi dell'elemento via Javascript
+
+            prendo l'elemento con query selector
+            agisco sull'attributo "Classlist"
+            let elemento = document.querySelector("#prova").classList(add/remove..."nome della classe")
+            let elemento = document.querySelector("#prova").classList.toggle(add/remove..."nome della classe")         
+        */
+
+    </script>
 <body>
     <div class="container">
 
@@ -62,7 +80,7 @@
         let max = 100
         let casualNumber = generateRandomInteger(min, max)
         let indovinato = false
-
+        let tempo = document.querySelector("#timer")
         let button = document.querySelector("#USERbutton")
         let fratello1 = document.querySelector("#wc1")
         let fratello2 = document.querySelector("#wc2")
@@ -70,19 +88,32 @@
         button.addEventListener("click", function(event) {
             if (contatore >= tentMax) {
                 fratello1.innerHTML = "Tentativi esauriti, il numero corretto era " + casualNumber
-                fratello2.innerHTML = ""
                 return;
             }
 
             number = parseInt(document.querySelector("#USERguess").value)
-            contatore += 1
+            contatore +=1
+            if(contatore === 2){
+                tempo.classList.add("#yellow")
+                tempo.classList.remove("green")
+            }else{
+                if(contatore === 4){
+                    tempo.classList.add("red")
+                    tempo.classList.remove("yellow")
+                }    
+        }
+
 
             if (number < min || number > max || isNaN(number)) {
                 fratello1.innerHTML = "Errore nell'inserimento!"
             } else if (number === casualNumber) {
                 fratello1.innerHTML = "Hai indovinato! in " + contatore + " tentativi"
                 fratello2.innerHTML = ""
-                indovinato = true;
+                indovinato = true
+                button.disabled = true
+                tempo.classList.remove("yellow")
+                tempo.classList.remove("red")
+                tempo.classList.add("green")
             } else if (number < casualNumber) {
                 fratello1.innerHTML = "Numero troppo piccolo, riprova"
             } else {
@@ -91,6 +122,7 @@
 
             fratello2.innerHTML = "Hai ancora " + (tentMax - contatore) + " tentativi"
         })
+        hiddenScope()
     </script>
 </body>
 </html>
